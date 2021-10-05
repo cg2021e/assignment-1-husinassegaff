@@ -502,7 +502,7 @@ function main() {
                 -0.4611060520388,-0.2732274409761, 0.698, 0.564, 0.658,
 
             // shadow - kanan
-                // K1 - K10, N, N1 - N22 (33)
+                // K1 - K10, N, N1 - N22 (32)
                 0.4951416329024,-0.3516681788164, 0.698, 0.564, 0.658,
                 0.5047321675991,-0.3617315191554, 0.698, 0.564, 0.658,
                 0.5135209254156,-0.3662372834329, 0.698, 0.564, 0.658,
@@ -536,7 +536,6 @@ function main() {
                 0.4725648350703,-0.3633158226247, 0.698, 0.564, 0.658,
                 0.4792104503923,-0.361668982851, 0.698, 0.564, 0.658,
                 0.4862486959519,-0.3588831274597, 0.698, 0.564, 0.658,
-
 
             ];
 
@@ -634,19 +633,32 @@ function main() {
         gl.clearColor(1, 1, 1, 1.0);
         gl.clear(gl.COLOR_BUFFER_BIT);
         gl.uniformMatrix4fv(uChange, false, kiri);
-        gl.drawArrays(gl.TRIANGLE_FAN, 0, 79);
-        gl.drawArrays(gl.TRIANGLE_FAN, 80, 115);
-        gl.drawArrays(gl.TRIANGLE_FAN, 195, 14);
-        gl.drawArrays(gl.TRIANGLE_FAN, 209, 8);
-        gl.drawArrays(gl.TRIANGLE_FAN, 429, 19);
+        // image-left (top-right.jpg)
+            // keliling objek
+            gl.drawArrays(gl.TRIANGLE_FAN, 0, 79);
+            // lingkaran atas
+            gl.drawArrays(gl.TRIANGLE_FAN, 80, 115);
+            // penutup toples
+            gl.drawArrays(gl.TRIANGLE_FAN, 195, 14);
+            // pegangan penutup
+            gl.drawArrays(gl.TRIANGLE_FAN, 209, 8);
+            // bayangan pegangan penutup
+            gl.drawArrays(gl.TRIANGLE_FAN, 429, 19);
 
         gl.uniformMatrix4fv(uChange, false, kanan);
-        gl.drawArrays(gl.TRIANGLE_FAN, 217, 63);
-        gl.drawArrays(gl.TRIANGLE_FAN, 280, 64);
-        gl.drawArrays(gl.TRIANGLE_FAN, 344, 32);
-        gl.drawArrays(gl.TRIANGLE_FAN, 376, 34);
-        gl.drawArrays(gl.TRIANGLE_FAN, 410, 19);
-        gl.drawArrays(gl.TRIANGLE_FAN, 450, 30);
+        // image-right (top-left.jpg)
+            // keliling objek
+            gl.drawArrays(gl.TRIANGLE_FAN, 217, 63);
+            // lingkaran atas - luar
+            gl.drawArrays(gl.TRIANGLE_FAN, 280, 96);
+            // lingkaran atas - dalam
+            gl.drawArrays(gl.TRIANGLE_FAN, 344, 32);
+            // penutup toples
+            gl.drawArrays(gl.TRIANGLE_FAN, 376, 34);
+            // pegangan penutup
+            gl.drawArrays(gl.TRIANGLE_FAN, 410, 19);
+            // bayangan pegangan penutup
+            gl.drawArrays(gl.TRIANGLE_FAN, 450, 32);
         requestAnimationFrame(render);
     }
 
