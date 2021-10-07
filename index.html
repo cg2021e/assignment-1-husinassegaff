@@ -4,35 +4,8 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css" />
         <title>Assignment-1 WebGL</title>
-        <style>
-            body {
-                background-color:  rgb(68, 127, 175);
-            }
-        
-            h1 {
-                color: white;
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                margin: auto;
-                text-align: center;
-            }
-        
-            p {
-                color: white;
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                margin: auto;
-                text-align: center;
-            }
-        
-            canvas {
-                border: 3px solid #000000;
-                border-radius: 20px;
-                margin: auto;
-                position: absolute;
-                left: 0;
-                right: 0;
-                }
-        </style>
     </head>
     <body onload="main()">
         <h1>Jar | Husin Muhammad Assegaff</h1>
@@ -41,6 +14,11 @@
         <canvas width="700" height="500" id="myCanvas">
             Your browser does not support WebGL rendering.
         </canvas>
+        <div class="button">
+			<button id="myButton" class="raise">
+				<span>Stop</span>
+			</button>
+		</div>
         <script src="main.js"></script>
     </body>
 </html>

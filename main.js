@@ -610,55 +610,72 @@ function main() {
     );
     gl.enableVertexAttribArray(aColor);
 
+    var freeze = false;
+    const btn = document.getElementById("myButton");
+
+    btn.addEventListener("click", ()=>{
+        freeze = !freeze;
+        if (btn.innerText === "Continue"){
+            btn.innerText = "Stop";
+            btn.style.backgroundColor = "#bb2124";
+        } else {
+            btn.innerText= "Continue";
+            btn.style.backgroundColor = "#22bb33";
+        }
+    });
+
     var speed = 0.0127;
     var change = 0;
     var uChange = gl.getUniformLocation(shaderProgram, "uChanged");
     function render() {
-      if (change >= 1.2 || change < -0.2) speed = -speed;
-        change += speed;
-        const kiri = [
-            1, 0, 0, 0,
-            0, 1, 0, 0,
-            0, 0, 1, 0,
-            0, 0, 0, 1,
-        ]
-    
-        const kanan = [
-            1, 0, 0, 0,
-            0, 1, 0, 0,
-            0, 0, 1, 0,
-            0, change, 0, 1,
-        ]
-        
-        gl.clearColor(1, 1, 1, 1.0);
-        gl.clear(gl.COLOR_BUFFER_BIT);
-        gl.uniformMatrix4fv(uChange, false, kiri);
-        // image-left (top-right.jpg)
-            // keliling objek
-            gl.drawArrays(gl.TRIANGLE_FAN, 0, 79);
-            // lingkaran atas
-            gl.drawArrays(gl.TRIANGLE_FAN, 80, 115);
-            // penutup toples
-            gl.drawArrays(gl.TRIANGLE_FAN, 195, 14);
-            // pegangan penutup
-            gl.drawArrays(gl.TRIANGLE_FAN, 209, 8);
-            // bayangan pegangan penutup
-            gl.drawArrays(gl.TRIANGLE_FAN, 429, 19);
+        if(!freeze){
 
-        gl.uniformMatrix4fv(uChange, false, kanan);
-        // image-right (top-left.jpg)
-            // keliling objek
-            gl.drawArrays(gl.TRIANGLE_FAN, 217, 63);
-            // lingkaran atas - luar
-            gl.drawArrays(gl.TRIANGLE_FAN, 280, 96);
-            // lingkaran atas - dalam
-            gl.drawArrays(gl.TRIANGLE_FAN, 344, 32);
-            // penutup toples
-            gl.drawArrays(gl.TRIANGLE_FAN, 376, 34);
-            // pegangan penutup
-            gl.drawArrays(gl.TRIANGLE_FAN, 410, 19);
-            // bayangan pegangan penutup
-            gl.drawArrays(gl.TRIANGLE_FAN, 450, 32);
+            if (change >= 1.2 || change < -0.2) speed = -speed;
+                change += speed;
+                const kiri = [
+                    1, 0, 0, 0,
+                    0, 1, 0, 0,
+                    0, 0, 1, 0,
+                    0, 0, 0, 1,
+                ]
+            
+                const kanan = [
+                    1, 0, 0, 0,
+                    0, 1, 0, 0,
+                    0, 0, 1, 0,
+                    0, change, 0, 1,
+                ]
+            
+            gl.clearColor(1, 1, 1, 1.0);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+            gl.uniformMatrix4fv(uChange, false, kiri);
+            // image-left (top-right.jpg)
+                // keliling objek
+                gl.drawArrays(gl.TRIANGLE_FAN, 0, 79);
+                // lingkaran atas
+                gl.drawArrays(gl.TRIANGLE_FAN, 80, 115);
+                // penutup toples
+                gl.drawArrays(gl.TRIANGLE_FAN, 195, 14);
+                // pegangan penutup
+                gl.drawArrays(gl.TRIANGLE_FAN, 209, 8);
+                // bayangan pegangan penutup
+                gl.drawArrays(gl.TRIANGLE_FAN, 429, 19);
+
+            gl.uniformMatrix4fv(uChange, false, kanan);
+            // image-right (top-left.jpg)
+                // keliling objek
+                gl.drawArrays(gl.TRIANGLE_FAN, 217, 63);
+                // lingkaran atas - luar
+                gl.drawArrays(gl.TRIANGLE_FAN, 280, 96);
+                // lingkaran atas - dalam
+                gl.drawArrays(gl.TRIANGLE_FAN, 344, 32);
+                // penutup toples
+                gl.drawArrays(gl.TRIANGLE_FAN, 376, 34);
+                // pegangan penutup
+                gl.drawArrays(gl.TRIANGLE_FAN, 410, 19);
+                // bayangan pegangan penutup
+                gl.drawArrays(gl.TRIANGLE_FAN, 450, 32);
+        }
         requestAnimationFrame(render);
     }
 
