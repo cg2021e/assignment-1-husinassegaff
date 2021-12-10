@@ -280,96 +280,9 @@ function main() {
 
     gl.viewport(0, 0, 640, 640);
 
-    // Get Models
-    let cubeModel = makeCube();
-    let jarModel = makeJar();
-
-    // cube
-    let cubeObject = new WebGLObject(gl, cubeModel, vertexShaderSource, fragmentShaderSource);
-    cubeObject.transform.scale = [0.1, 0.1, 0.1];
-    cubeObject.lightning.ambientIntensity = 1.0;
-    cubeObject.transform.position = [0, -0.75, 1.8];
-
-    // jar left
-    let jarLeftObject = new WebGLObject(gl, jarModel, vertexShaderSource, fragmentShaderSource);
-    jarLeftObject.transform.position = [-1, -1, 2];
-    jarLeftObject.transform.rotation = [-80, 0, 30];
-    jarLeftObject.transform.scale = [0.15, 0.15, 0.15];
-    jarLeftObject.lightning.shininessConstant = 1; // Plastic Shininess, around 5 - 10
-
-    // jar right
-    let jarRightObject = new WebGLObject(gl, jarModel, vertexShaderSource, fragmentShaderSource);
-    jarRightObject.transform.position = [1, -1, 2];
-    jarRightObject.transform.rotation = [-80, 0, 130];
-    jarRightObject.transform.scale = [0.15, 0.15, 0.15];
-    jarRightObject.lightning.shininessConstant = 200; // Metal Shininess, around 100 - 200
-
-    let world = new WebGLWorld(gl);
-    
-    world.clearColor = [0.8, 0.8, 0.8, 1.0];
-    world.camera.position = [0, -1, 3.8];
-    world.camera.up = [0, 1, 0];
-    world.lightning.ambientIntensityGlobal = 0.327; // 0.200 + 0.127 (Last 3 digits NRP)
-    world.lightning.position = cubeObject.transform.position;
-
-    world.addObject(cubeObject);
-    world.addObject(jarLeftObject);
-    world.addObject(jarRightObject);
-
-    world.deploy();
-
-    // Controller
-    let cubePosition = cubeObject.transform.position;
-    let cameraPosition = world.camera.position;
-    let cubeSpeed = 0.05;
-    let cameraSpeed = 0.05;
-    let moveRatio = 0.05;
-
-    document.addEventListener("keydown", (event) => {
-        if (event.keyCode == 'W'.charCodeAt()) cubePosition[1] += cubeSpeed;
-        else if (event.keyCode == 'S'.charCodeAt()) cubePosition[1] -= cubeSpeed;
-        
-        if (event.keyCode == 'A'.charCodeAt()) cameraPosition[0] -= cameraSpeed;
-        else if (event.keyCode == 'D'.charCodeAt()) cameraPosition[0] += cameraSpeed;
-    }, false);
-
-    const btn_w = document.getElementById("myButton-w");
-    const btn_a = document.getElementById("myButton-a");
-    const btn_s = document.getElementById("myButton-s");
-    const btn_d = document.getElementById("myButton-d");
-
-    btn_w.addEventListener("click", ()=>{
-        if (btn_w.innerText === "W"){
-            cubePosition[1] += cubeSpeed;
-        } 
-    });
-
-    btn_a.addEventListener("click", ()=>{
-        if (btn_a.innerText === "A"){
-            cameraPosition[0] -= cameraSpeed;
-        } 
-    });
-
-    btn_s.addEventListener("click", ()=>{
-        if (btn_s.innerText === "S"){
-            cubePosition[1] -= cubeSpeed;
-        } 
-    });
-
-    btn_d.addEventListener("click", ()=>{
-        if (btn_d.innerText === "D"){
-            cameraPosition[0] += cameraSpeed;
-        } 
-    });
 
     function render() {
-        world.render();
-
-        cubeObject.transform.position = lerpVec3(cubeObject.transform.position, cubePosition, moveRatio);
-        world.lightning.position = lerpVec3(world.lightning.position, cubePosition, moveRatio);
-        world.camera.position = lerpVec3(world.camera.position, cameraPosition, moveRatio);
-
-        requestAnimationFrame(render);
+        
     }
     requestAnimationFrame(render);
 }
