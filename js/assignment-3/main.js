@@ -214,6 +214,25 @@ class WebGLObject {
     }
 }
 
+var vertexShaderSource2D = `
+    attribute vec2 aPosition;
+    attribute vec3 aColor;
+    varying vec3 vColor;
+    uniform mat4 uChanged;
+    void main(){
+        gl_Position = uChanged * vec4(aPosition, 0.0, 1.0);
+        vColor = aColor;
+    }
+`;
+
+var fragmentShaderSource2D = `
+    precision mediump float;
+    varying vec3 vColor;
+    void main() {
+        gl_FragColor = vec4(vColor, 1.0);    // Yellow
+    }
+`;
+
 var vertexShaderSource = `
     attribute vec3 aPosition;
     attribute vec3 aColor;
@@ -280,9 +299,61 @@ function main() {
 
     gl.viewport(0, 0, 640, 640);
 
+    // model
+    let cubeModel = makeCube();
+    let jarModel = makeJar();
+    let planeModel = makePlane();
+
+    // cube
+    let cubeObject = new WebGLObject(gl, cubeModel, vertexShaderSource, fragmentShaderSource);
+    cubeObject.transform.scale = [0.1, 0.1, 0.1];
+    cubeObject.lightning.ambientIntensity = 0.0;
+    cubeObject.transform.position = [0, -0.75, 1.8];
+
+    // jar left
+    let jarLeftObject = new WebGLObject(gl, jarModel, vertexShaderSource, fragmentShaderSource);
+    jarLeftObject.transform.position = [-1, -1, 2];
+    jarLeftObject.transform.rotation = [-90, 0, 30];
+    jarLeftObject.transform.scale = [0.15, 0.15, 0.15];
+    jarLeftObject.lightning.shininessConstant = 1; // Plastic Shininess, around 5 - 10
+
+    // jar right
+    let jarRightObject = new WebGLObject(gl, jarModel, vertexShaderSource, fragmentShaderSource);
+    jarRightObject.transform.position = [1, -1, 2];
+    jarRightObject.transform.rotation = [-90, 0, 130];
+    jarRightObject.transform.scale = [0.15, 0.15, 0.15];
+    jarRightObject.lightning.shininessConstant = 200; // Metal Shininess, around 100 - 200
+ 
+
+    // plane
+    let planeObject = new WebGLObject(gl, planeModel, vertexShaderSource, fragmentShaderSource);
+    planeObject.transform.scale = [20, 0, 20];
+    planeObject.transform.position = [0, -1.13, 2];
+
+    let world = new WebGLWorld(gl);
+
+    world.clearColor = [0.8, 0.8, 0.8, 1.0];
+    world.camera.position = [0, -1, 3.0];
+    world.camera.up = [0, 1, 0];
+    // world.lightning.position = cubeObject.transform.position;
+    // world.lightning.ambientIntensity = 0.2;
+
+    world.addObject(cubeObject);
+    world.addObject(jarLeftObject);
+    world.addObject(jarRightObject);
+
+    world.addObject(planeObject);
+
+    world.deploy();
 
     function render() {
-        
+        world.render();
+
+        cubeObject.transform.position = lerpVec3(cubeObject.transform.position, cubePosition, moveRatio);
+        world.lightning.position = lerpVec3(world.lightning.position, cubePosition, moveRatio);
+        world.camera.position = lerpVec3(world.camera.position, cameraPosition, moveRatio);
+
+        requestAnimationFrame(render);
     }
     requestAnimationFrame(render);
 }
