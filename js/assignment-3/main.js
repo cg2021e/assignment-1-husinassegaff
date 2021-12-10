@@ -53,6 +53,8 @@ class WebGLObject {
         this.model = model;
         this.lightning = {
             ambientIntensity: 0.0,
+            diffuseIntensity: 0.0,
+            specularIntensity: 0.0,
             shininessConstant: 100
         };
 
@@ -307,8 +309,10 @@ function main() {
     // cube
     let cubeObject = new WebGLObject(gl, cubeModel, vertexShaderSource, fragmentShaderSource);
     cubeObject.transform.scale = [0.1, 0.1, 0.1];
-    cubeObject.lightning.ambientIntensity = 0.0;
     cubeObject.transform.position = [0, -0.75, 1.8];
+    cubeObject.lightning.ambientIntensity = 0.0;
+    cubeObject.lightning.diffuseIntensity = 0.0;
+    cubeObject.lightning.specularIntensity = 0.0;
 
     // jar left
     let jarLeftObject = new WebGLObject(gl, jarModel, vertexShaderSource, fragmentShaderSource);
@@ -345,6 +349,27 @@ function main() {
     world.addObject(planeObject);
 
     world.deploy();
+
+    // Controller
+    let cubePosition = cubeObject.transform.position;
+    let cameraPosition = world.camera.position;
+    let cubeSpeed = 0.05;
+    let cameraSpeed = 0.05;
+    let moveRatio = 0.05;
+
+    document.addEventListener("keydown", (event) => {   
+        if (event.keyCode == 'W'.charCodeAt()) cubePosition[2] -= cubeSpeed;
+        else if (event.keyCode == 'S'.charCodeAt()) cubePosition[2] += cubeSpeed;
+        
+        if (event.keyCode == 'A'.charCodeAt()) cubePosition[0] -= cubeSpeed;
+        else if (event.keyCode == 'D'.charCodeAt()) cubePosition[0] += cubeSpeed;
+
+        if (event.keyCode == 38) cameraPosition[2] -= cameraSpeed;
+        else if (event.keyCode == 40) cameraPosition[2] += cameraSpeed;
+
+        if (event.keyCode == 37) cameraPosition[0] -= cameraSpeed;
+        else if (event.keyCode == 39) cameraPosition[0] += cameraSpeed;
+    }, false);
 
     function render() {
         world.render();
