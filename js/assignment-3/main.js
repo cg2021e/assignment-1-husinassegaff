@@ -12,7 +12,7 @@ class WebGLWorld {
         this.lightning = {
             position: [0, 0, 0],
             ambientConstantGlobal:[1.0,  1.0,  1.0],
-            ambientIntensityGlobal: 1.0,
+            ambientIntensityGlobal: 0.0,
         };
         this.clearColor = [1.0, 1.0, 1.0, 1.0];
     }
@@ -216,25 +216,6 @@ class WebGLObject {
     }
 }
 
-var vertexShaderSource2D = `
-    attribute vec2 aPosition;
-    attribute vec3 aColor;
-    varying vec3 vColor;
-    uniform mat4 uChanged;
-    void main(){
-        gl_Position = uChanged * vec4(aPosition, 0.0, 1.0);
-        vColor = aColor;
-    }
-`;
-
-var fragmentShaderSource2D = `
-    precision mediump float;
-    varying vec3 vColor;
-    void main() {
-        gl_FragColor = vec4(vColor, 1.0);    // Yellow
-    }
-`;
-
 var vertexShaderSource = `
     attribute vec3 aPosition;
     attribute vec3 aColor;
@@ -337,10 +318,10 @@ function main() {
     let world = new WebGLWorld(gl);
 
     world.clearColor = [0.8, 0.8, 0.8, 1.0];
-    world.camera.position = [0, -1, 3.0];
+    world.camera.position = [0, -1, 3.0]; 
     world.camera.up = [0, 1, 0];
-    // world.lightning.position = cubeObject.transform.position;
-    // world.lightning.ambientIntensity = 0.2;
+    world.lightning.position = cubeObject.transform.position;
+    world.lightning.ambientIntensity = 0.0;
 
     world.addObject(cubeObject);
     world.addObject(jarLeftObject);
@@ -357,7 +338,25 @@ function main() {
     let cameraSpeed = 0.05;
     let moveRatio = 0.05;
 
-    document.addEventListener("keydown", (event) => {   
+    let check = "on";
+
+    document.addEventListener("keydown", (event) => {  
+        if (event.keyCode == 32) {
+            if(check == "on") {
+                world.lightning.ambientIntensityGlobal = 1.0;
+                cubeObject.lightning.ambientIntensity = 1.0;
+                cubeObject.lightning.diffuseIntensity = 1.0;
+                cubeObject.lightning.specularIntensity = 1.0;
+                check = "off";
+            } else {
+                world.lightning.ambientIntensityGlobal = 0.0;
+                cubeObject.lightning.ambientIntensity = 0.0;
+                cubeObject.lightning.diffuseIntensity = 0.0;
+                cubeObject.lightning.specularIntensity = 0.0;
+                check = "on";
+            }
+        }
+        
         if (event.keyCode == 'W'.charCodeAt()) cubePosition[2] -= cubeSpeed;
         else if (event.keyCode == 'S'.charCodeAt()) cubePosition[2] += cubeSpeed;
         
