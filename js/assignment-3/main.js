@@ -383,3 +383,5 @@ function main() {
 }
 
 main();
+
+// challenge 6 is not finished yet
