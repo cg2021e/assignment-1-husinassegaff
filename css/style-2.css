@@ -1,0 +1,33 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #F08FC0, #FFBCBC)
+}
+
+
+.myCanvas {
+    box-shadow : 0px 0px 50px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+
+}
+
+.container-wasd {
+    box-shadow : 0px 0px 50px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    border-color: white;
+    border-style: solid;
+    border-width: 3px;
+    background: linear-gradient(135deg, #F08FC0, #FFBCBC);
+    color: white;
+    font-size: 1.2rem;
+    width: 70%;
+}
